@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Калькулятор для введених значень</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    </head>
+    <body>
+        <a href="../index.html">Назад к списку задач</a>
+        <h1>Калькулятор для введённых значений</h1>
+        <script>
+    
+            var arr = [];
+            while (true) {
+                var a = prompt("Введіть число" , "0"); // Введіть яке-небудь значення сюди
+                if (a == '' || a == null || isNaN(a)){
+                    break; 
+                } else {
+                    arr.push(+a);
+                }
+            }
+            var sum = 0;
+            for (var i=0; i<arr.length; i++) {
+                sum += arr[i];
+            }
+            alert(sum); 
+        </script>
+    </body>
+</html>
