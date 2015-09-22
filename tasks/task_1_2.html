@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Calculator for entering values, v.2.0</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #links{
+                text-align: right;
+                width: 300px;
+            }
+            #add{
+                float: left;
+            }
+            #firstInput{
+                margin: 20px 0 0 0;
+            }
+            #inputs-res{
+                width: 300px;
+            }
+            #inputs-res input {
+                width: 100%;
+            }
+        </style>
+        <script>
+            var inputs = [];  //global array
+            function loadPage(){
+                inputs.push(document.getElementById("firstInput")); // add a 1st input to array
+            }
+            function createInput(){
+                var input = document.createElement("input"); // create 2st and next <inputs>
+                input.type = "text";
+                input.value = "";
+                
+                input.onkeypress = validNumbers; // not execute a function, just pointer on the start of the function "ValidNumbers" when a user presses a key
+                //input.pattern="^[0-9]+$";
+                return input;
+            }
+            function addClick(event){
+                event.preventDefault(); // prevent a link from opening the URL
+                var plus = document.createElement("div"); // create tag <div>
+                plus.id = "plus"; 
+                plus.innerText = "+";
+                
+                var block = document.getElementById("inputs-res");
+                block.appendChild(plus); // add <div>+</div> after 1st input
+                
+                var input = createInput(); //function invocation and write returning of it to the variable
+                block.appendChild(input); // add 2st and next inputs 
+                inputs.push(input); // add 2st and next inputs to the end of array
+                console.log(inputs);
+                
+            }
+            function validNumbers(event){
+                //console.log(parseFloat("00.000"));
+                var keyCode = event.keyCode; // asci key code
+                var value = event.target.value; // using the event.target property together with 
+                //the element.value property to find out which value of the element triggered a specified event
+                switch(keyCode){
+                    case 48: // 0
+                    case 49: // 1
+                    case 50: //...
+                    case 51:
+                    case 52:
+                    case 53:
+                    case 54:
+                    case 55:
+                    case 56:
+                    case 57: // 9
+                        if (value.indexOf("0") === 0 && value.length === 1){ // = true, if ("0" locates on the 0 position) AND (string contains only 1 character)
+                            // indexOf() method returns the position of the first occurrence of a specified value ("0") in a string.
+                            event.preventDefault(); 
+                        }
+                        break;
+                        
+                    case 46: // .
+                        if (value.indexOf(".") >= 0  || value.length === 0) { // = true, if ("." is present) OR (string is empty)
+                            event.preventDefault();
+                        } 
+                        break;
+                    
+                    case 45: // -
+                        if (value.indexOf("-") >= 0 || value.length >= 1 ) { // = true, if ("-" is present) OR (string contains 1 or more characters)
+                            event.preventDefault();
+                        }
+                        break;
+                        
+                        
+                    default: 
+                        event.preventDefault();
+                        break;
+                }
+            }
+            
+            
+            function calculateClick(event){
+                event.preventDefault();
+                var sum=0; var value;
+                for (var i, i=0; i<inputs.length; i++){
+                    value = inputs[i].value;
+                    if(value=="" || isNaN(value)){ //check elements of array on empty string or Not a Number
+                        inputs[i].value = 0; // if 'true' write 0 value instead those values
+                        continue;  // to the next iteration 
+                    } 
+                    sum += +value; // calculation a sum of elements of array with parseInt(value)
+                }
+                
+                var hr = document.createElement("hr"); // create tag <hr> - horizontal line
+                hr.id = "hr";
+                var block = document.getElementById("inputs-res");
+                block.appendChild(hr); 
+                
+                var resSum = document.createTextNode(sum);
+                block.appendChild(resSum);
+            }
+        </script>
+    </head>
+    <body onload="loadPage()">
+        <a href="../index.html">Назад к списку задач</a>
+        <h1>Калькулятор для введённых значений, версия 2</h1>
+        
+        <div id="links">
+            <div id="add">
+                <a href="#" onclick="addClick(event)">Add</a>
+            </div>
+            <div>
+                <a href="#" onclick="calculateClick(event)">Calculate</a>
+            </div>
+        </div>
+        <div id="inputs-res">
+            <input id="firstInput" type="text" name="firstInput" value="" onkeypress="validNumbers(event)">
+            
+        </div>
+        
+    </body>
+</html>
